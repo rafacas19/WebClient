@@ -1,27 +1,15 @@
-var mysql = require('mysql');
+var Twitter = require('twitter');
 
-var connection = mysql.createConnection(
-    {
-      host     : 'stusql.dcs.shef.ac.uk',
-      port     : '3306',
-      user     : 'team064',
-      password : 'ec4c7a0d',
-      database : 'team064'
-    }
-);
-
-connection.connect();
-var query = connection.query('SELECT name FROM football');
-
-query.on('error', function(err) {
-    throw err;
+var client = new Twitter({
+  consumer_key: 'BhBDTS4urGoSYW2x3TD9xk939',
+  consumer_secret: 'DmYGQRS3gjx7cIMZa54dobSWV1ShQgTpTnXVNE3RWFQpn0rqXj',
+  access_token_key: '844220358416879618-A13Z7i481T2DcuSvCVFaVMgL3QHEkXe',
+  access_token_secret: 'PN8f3atQ1vXoBuCojT9t8XcDC0tjlbbtMaw6bDGfNgvKw'
 });
 
-query.on('fields', function(fields) {
-    // console.log(fields);
+var params = {q: 'mancity'};
+client.get('search/tweets', params, function(error, tweets, response) {
+  if (!error) {
+    console.log(tweets);
+  }
 });
-
-query.on('result', function(row) {
-    console.log(row);
-});
-connection.end();
