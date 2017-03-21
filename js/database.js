@@ -11,7 +11,7 @@ var connection = mysql.createConnection(
 );
 
 connection.connect();
-var query = connection.query('SELECT name FROM football');
+var query = connection.query('SELECT * FROM football');
 
 query.on('error', function(err) {
     throw err;
