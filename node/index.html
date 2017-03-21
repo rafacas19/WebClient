@@ -1,0 +1,34 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script>
+
+  $(document).ready(function(){
+    var socket = io.connect('http://localhost:3000');
+
+    socket.on('initial tweets', function(data) {
+      var html = ''
+      for (var i = 0; i < data.length; i++) {
+        html += '<li>' + data[i].user + '</li>';
+      }
+      $('#tweets').html(html);
+    });
+
+    socket.on('new tweet', function(data) {
+      $('#tweets').append('<li>' + data.user + '</li>');
+    });
+
+    socket.on('user connected', function(data) {
+      $('#usersConnected').html('Users connected: ' + data);
+    });
+
+    $('#newTweet').click(function() {
+      var newTweet = 'This is a random ' + (Math.floor(Math.random()*100) + 1) + ' tweet';
+      socket.emit('new tweet', {tweet: newTweet})
+    });
+  });
+
+</script>
+
+<ul id="tweets"></ul>
+<div id="usertsConnected"></div>
+<div id="newTweet">Create a new tweet</div>
